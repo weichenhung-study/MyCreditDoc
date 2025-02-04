@@ -122,7 +122,7 @@
 
 ### 💠 3.2 交易服務（transactions-api）:8085
 #### 🔸 (1) cd到專案dockerfile目錄
-		mvn clean package
+	mvn clean package
 #### 🔸 (2) 創建映像檔
     docker build -t jersey-transactions-api-img .
 #### 🔸 (3) 啟動容器
