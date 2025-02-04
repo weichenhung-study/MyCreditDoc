@@ -70,7 +70,7 @@
     docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot -proot -e "USE apdata;SHOW TABLES;"
 	exit;
 
-#### 🔸 SQL指令放於「""」內
+#### 🔺 SQL指令放於「""」內
     docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot - -e "USE apdata; SELECT COUNT(*) FROM billrecord;"
 	exit;
 
