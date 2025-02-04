@@ -1,6 +1,6 @@
 # Docker容器建置 - Application & Database 
 
-## 1. 建置資料庫容器，
+## ⭐ 1. 建置資料庫容器，
 ### 1.1 儲存客戶信用卡資訊（cuscredit-db）:3307
 #### (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
     docker run -p 3307:3306 --name cuscredit-db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=apdata -d mysql:8.0
@@ -25,8 +25,8 @@
 
 #### (8) 查看table建立是否完成
     docker run -it --network mysqlnetwork --rm mysql mysql -h cuscredit-db -uroot -proot
-USE apdata; SHOW TABLES;
-exit;
+	USE apdata; SHOW TABLES;
+	exit;
 
 ### 1.2 信用卡帳單紀錄服務（billofmonth-db）:3308
 #### (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
@@ -52,8 +52,8 @@ exit;
 
 #### (8) 查看table建立是否完成
     docker run -it --network mysqlnetwork --rm mysql mysql -h billofmonth-db -uroot -proot
-USE apdata; SHOW TABLES;
-exit;
+	USE apdata; SHOW TABLES;
+	exit;
 
 ### 1.3 信用卡交易紀錄服務（billrecord-db）:3309
 #### (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
@@ -79,8 +79,8 @@ exit;
 
 #### (8) 查看table建立是否完成
     docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot -proot
-USE apdata; SHOW TABLES;
-exit;
+	USE apdata; SHOW TABLES;
+	exit;
 
 
 
