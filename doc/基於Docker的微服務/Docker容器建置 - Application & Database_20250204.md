@@ -22,7 +22,6 @@
 
 #### 🔸 (7) 查看table建立是否完成
 	docker run -it --network mysqlnetwork --rm mysql mysql -h cuscredit-db -uroot -proot -e "USE apdata;SHOW TABLES;
-	exit;
 
 ### 💠 1.2 信用卡帳單紀錄服務（billofmonth-db）:3308
 #### 🔸 (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
@@ -45,7 +44,6 @@
 
 #### 🔸 (7) 查看table建立是否完成
     docker run -it --network mysqlnetwork --rm mysql mysql -h billofmonth-db -uroot -proot -e "USE apdata;SHOW TABLES;
-	exit;
 
 ### 💠 1.3 信用卡交易紀錄服務（billrecord-db）:3309
 #### 🔸 (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
@@ -68,10 +66,9 @@
 
 #### 🔸 (7) 查看table建立是否完成
     docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot -proot -e "USE apdata;SHOW TABLES;"
-	exit;
 
 #### 🔺 SQL指令放於「""」內
-    docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot - -e "USE apdata; SELECT COUNT(*) FROM billrecord;"
+    docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot -proot -e "USE apdata; SELECT COUNT(*) FROM billrecord;"
 	exit;
 
 ## ⭐ 2.建置DB Interface(Jersey)
