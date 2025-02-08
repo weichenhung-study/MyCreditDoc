@@ -72,29 +72,29 @@
 	exit;
 
 ## ⭐ 2.建置DB Interface(Jersey)
-### 💠 2.1 信用卡管理服務（cuscredit-api）:8081
+### 💠 2.1 信用卡管理服務（jdbc-cuscredit-api）:8081
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
-    docker build -t cuscredit-api-img .
+    docker build -t jdbc-cuscredit-api-img .
 #### 🔸 (3) 啟動容器
-    docker run -p 8081:8080 --name cuscredit-api --net mysqlnetwork -e MYSQL_HOST=cuscredit-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root cuscredit-api-img
+    docker run -p 8081:8080 --name jdbc-cuscredit-api --net mysqlnetwork -e MYSQL_HOST=cuscredit-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root jdbc-cuscredit-api-img
 
-### 💠 2.2 billofmonth-api :8082
+### 💠 2.2 jdbc-billofmonth-api :8082
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
-    docker build -t billofmonth-api-img .
+    docker build -t jdbc-billofmonth-api-img .
 #### 🔸 (3) 啟動容器
-    docker run -p 8082:8080 --name billofmonth-api --net mysqlnetwork -e MYSQL_HOST=billofmonth-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root billofmonth-api-img
+    docker run -p 8082:8080 --name jdbc-billofmonth-api --net mysqlnetwork -e MYSQL_HOST=billofmonth-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root jdbc-billofmonth-api-img
 
-### 💠 2.3 billrecord-api:8083
+### 💠 2.3 jdbc-billrecord-api:8083
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
-    docker build -t billrecord-api-img .
+    docker build -t jdbc-billrecord-api-img .
 #### 🔸 (3) 啟動容器
-    docker run -p 8083:8080 --name billrecord-api --net mysqlnetwork -e MYSQL_HOST=billrecord-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root billrecord-api-img
+    docker run -p 8083:8080 --name jdbc-billrecord-api --net mysqlnetwork -e MYSQL_HOST=billrecord-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root jdbc-billrecord-api-img
 
 
 
