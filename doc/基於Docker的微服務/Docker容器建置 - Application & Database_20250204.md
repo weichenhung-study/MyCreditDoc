@@ -134,7 +134,7 @@
 
 
 ## ⭐ 4.建置DB Interface(Spring Boot)
-### 💠 2.1 jpa-cuscredit-api:8088
+### 💠 4.1 jpa-cuscredit-api:8088
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -142,7 +142,7 @@
 #### 🔸 (3) 啟動容器
     docker run -p 8088:8080 --name jpa-cuscredit-api --net mysqlnetwork -e MYSQL_HOST=cuscredit-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root jpa-cuscredit-api-img
 
-### 💠 2.2 jpa-billofmonth-api :8089
+### 💠 4.2 jpa-billofmonth-api :8089
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -150,7 +150,7 @@
 #### 🔸 (3) 啟動容器
     docker run -p 8089:8080 --name jpa-billofmonth-api --net mysqlnetwork -e MYSQL_HOST=billofmonth-db -e MYSQL_PORT=3306 -e MYSQL_DB_NAME=apdata -e MYSQL_USER=root -e MYSQL_PASSWORD=root jpa-billofmonth-api-img
 
-### 💠 2.3 jpa-billrecord-api:8090
+### 💠 4.3 jpa-billrecord-api:8090
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -161,7 +161,7 @@
 
 
 ## ⭐ 5.建置application(Spring Boot)
-### 💠 4.1 信用卡管理服務（springboot-management-api）:8091
+### 💠 5.1 信用卡管理服務（springboot-management-api）:8091
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -169,7 +169,7 @@
 #### 🔸 (3) 啟動容器
     docker run -p 8091:8080 --name springboot-management-api --net mysqlnetwork springboot-management-api-img
 
-### 💠 4.2 交易服務（springboot-transactions-api）:8092
+### 💠 5.2 交易服務（springboot-transactions-api）:8092
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -177,7 +177,7 @@
 #### 🔸 (3) 啟動容器
     docker run -p 8092:8080 --name springboot-transactions-api --net mysqlnetwork springboot-transactions-api-img
 
-### 💠 4.3 帳單服務（springboot-billing-api）:8093
+### 💠 5.3 帳單服務（springboot-billing-api）:8093
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -185,10 +185,30 @@
 #### 🔸 (3) 啟動容器
     docker run -p 8093:8080 --name springboot-billing-api --net mysqlnetwork springboot-billing-api-img
 
-### 💠 4.4 爭議處理服務（springboot-dispute-api）:8094
+### 💠 5.4 爭議處理服務（springboot-dispute-api）:8094
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
     docker build -t springboot-dispute-api-img .
 #### 🔸 (3) 啟動容器
     docker run -p 8094:8080 --name springboot-dispute-api --net mysqlnetwork springboot-dispute-api-img
+
+
+
+## ⭐ 6.建置API Gateway(Spring Boot)
+### 💠 6.1 springboot服務閘道（springboot-apigateway）:8095
+#### 🔸 (1) cd到專案dockerfile目錄
+	mvn clean package
+#### 🔸 (2) 創建映像檔
+    docker build -t springboot-apigateway-img .
+#### 🔸 (3) 啟動容器
+    docker run -p 8095:8080 --name springboot-apigateway --net mysqlnetwork springboot-apigateway-img
+
+### 💠 6.2 jersey（jersey-apigateway）:8096
+#### 🔸 (1) cd到專案dockerfile目錄
+	mvn clean package
+#### 🔸 (2) 創建映像檔
+    docker build -t jersey-apigateway-img .
+#### 🔸 (3) 啟動容器
+    docker run -p 8096:8080 --name jersey-apigateway --net mysqlnetwork jersey-apigateway-img
+
