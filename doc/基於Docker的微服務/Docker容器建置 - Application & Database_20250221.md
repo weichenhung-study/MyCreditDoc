@@ -69,9 +69,11 @@
     docker run -it --network mysqlnetwork --rm mysql mysql -h billrecord-db -uroot -proot -e "USE apdata; SELECT COUNT(*) FROM billrecord;"
 	exit;
 
-xxxxxxxxxxxxxxxxxxx
+
+
+
 ## ⭐ 2. 建置「全」資料庫容器─monolith、modular-monolith專用
-### 💠 1.1 儲存客戶信用卡資訊（monolith-db）:3301
+### 💠 2.1 儲存客戶信用卡資訊（monolith-db）:3301
 #### 🔸 (1) 啟動Docker容器，該容器內運行MySQL資料庫服務
     docker run -p 3301:3306 --name monolith-db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=apdata -d mysql:8.0
 
@@ -97,7 +99,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-### 💠 4. jersey-monolith:8071
+### 💠 3. jersey-monolith:8071
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -118,8 +120,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-## ⭐ 2.建置jersey-microservice
-### 💠 2.1 jersey-microservice
+## ⭐ 5.建置jersey-microservice
 #### 🔸 (1) cd到專案docker-compose.yml目錄
 	mvn clean package
 #### 🔸 (2)  啟動容器
@@ -134,8 +135,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-## ⭐ 3.建置jersey-microservice-jdbc
-### 💠 3.1 jersey-microservice-jdbc
+## ⭐ 6.建置jersey-microservice-jdbc
 #### 🔸 (1) cd到專案docker-compose.yml目錄
 	mvn clean package
 #### 🔸 (2)  啟動容器
@@ -150,7 +150,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-### 💠 4. jersey-microservice-gateway:8096
+### 💠 7. jersey-microservice-gateway:8096
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -160,7 +160,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-### 💠 4. springboot-modular-monolith:8073
+### 💠 8. springboot-modular-monolith:8073
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
 #### 🔸 (2) 創建映像檔
@@ -170,8 +170,7 @@ xxxxxxxxxxxxxxxxxxx
 
 
 
-## ⭐ 3.建置springboot-microservice-jpa
-### 💠 3.1 springboot-microservice-jpa
+## ⭐ 9.建置springboot-microservice-jpa
 #### 🔸 (1) cd到專案docker-compose.yml目錄
 	mvn clean package
 #### 🔸 (2)  啟動容器
@@ -183,3 +182,28 @@ xxxxxxxxxxxxxxxxxxx
 		docker build -t springboot-microservice-jpa-cuscredit-img .
 	(3) 重新啟動專案	
 		docker-compose up -d --no-deps --build springboot-microservice-jpa-cuscredit
+
+
+
+## ⭐ 10.建置springboot-microservice
+#### 🔸 (1) cd到專案docker-compose.yml目錄
+	mvn clean package
+#### 🔸 (2)  啟動容器
+    docker-compose up --build -d
+#### 🔺 針對其中一個重建
+	(1) 到該目錄層下重新打包
+		mvn clean package
+	(2) 重新建構 Docker 映像檔
+		docker build -t springboot-microservice-management-img .
+	(3) 重新啟動專案	
+		docker-compose up -d --no-deps --build springboot-microservice-management
+
+
+
+### 💠 11. springboot-microservice-gateway:8095
+#### 🔸 (1) cd到專案dockerfile目錄
+	mvn clean package
+#### 🔸 (2) 創建映像檔
+    docker build -t springboot-microservice-gateway-img .
+#### 🔸 (3) 啟動容器
+    docker run -d -p 8095:8080 --name springboot-microservice-gateway --net mysqlnetwork springboot-microservice-gateway-img
