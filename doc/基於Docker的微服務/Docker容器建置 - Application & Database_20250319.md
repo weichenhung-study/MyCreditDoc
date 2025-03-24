@@ -217,5 +217,5 @@ docker network connect mysqlnetwork consul
 
 
 ## ⭐ 13. 移除多餘的 Consul 實例
-針對特定的刪除
+#### 🔸 針對特定的刪除
 	curl --request PUT http://localhost:8500/v1/agent/service/deregister/gateway-service-04ac3bb9aa27d96503c2768ea2c5174b
