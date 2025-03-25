@@ -216,6 +216,22 @@ docker network connect mysqlnetwork consul
     docker run -d -p 8095:8080 --name springboot-microservice-gateway --net mysqlnetwork springboot-microservice-gateway-img
 
 
+
 ## ⭐ 13. 移除多餘的 Consul 實例
 #### 🔸 針對特定的刪除
 	curl --request PUT http://localhost:8500/v1/agent/service/deregister/gateway-service-04ac3bb9aa27d96503c2768ea2c5174b
+
+
+
+## ⭐ 14. 釋放 Docker 不必要資源
+#### 🔸 清理停止的 Container
+	docker container prune
+
+#### 🔸 清理未使用的映像 (image)
+	docker image prune -a
+
+#### 🔸 清理未使用的網路 (network)
+	docker network prune
+
+#### 🔸 清理所有暫存資源
+	docker system prune -a
