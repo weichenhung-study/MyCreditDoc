@@ -185,7 +185,7 @@
 	(3) 重新啟動專案	
 		docker-compose up -d --no-deps --build springboot-microservice-jpa-cuscredit
 
-## ⭐ 10.設定分流設定：
+## ⭐ 10.設定「springboot-microservice-aamode」專用的分流設定：
 拉取分流server
 docker run -d --name=consul -p 8500:8500 consul
 docker network connect mysqlnetwork consul
@@ -217,13 +217,32 @@ docker network connect mysqlnetwork consul
 
 
 
-## ⭐ 13. 移除多餘的 Consul 實例
+## ⭐ 13. springboot-microservice-aamode
+#### 🔸 (1) cd到專案docker-compose.yml目錄
+	mvn clean package
+#### 🔸 (2)  啟動容器
+    docker-compose up --build -d
+
+
+## ⭐ 14.設定「jersey-microservice-aamode」專用的分流設定：
+	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14
+
+
+## ⭐ 15. jersey-microservice-aamode
+#### 🔸 (1) cd到專案docker-compose.yml目錄
+	mvn clean package
+#### 🔸 (2)  啟動容器
+    docker-compose up --build -d
+
+
+
+## ⭐ 16. 移除多餘的 Consul 實例
 #### 🔸 針對特定的刪除
 	curl --request PUT http://localhost:8500/v1/agent/service/deregister/gateway-service-04ac3bb9aa27d96503c2768ea2c5174b
 
 
 
-## ⭐ 14. 釋放 Docker 不必要資源
+## ⭐ 17. 釋放 Docker 不必要資源
 #### 🔸 清理停止的 Container
 	docker container prune
 
