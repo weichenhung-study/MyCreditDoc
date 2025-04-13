@@ -225,7 +225,7 @@ docker network connect mysqlnetwork consul
 
 
 ## ⭐ 14.設定「jersey-microservice-aamode」專用的分流設定：
-	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14
+	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14.0
 
 
 ## ⭐ 15. jersey-microservice-aamode
