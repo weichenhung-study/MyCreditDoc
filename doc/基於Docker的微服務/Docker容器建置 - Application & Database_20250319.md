@@ -187,8 +187,7 @@
 
 ## ⭐ 10.設定「springboot-microservice-aamode」專用的分流設定：
 拉取分流server
-docker run -d --name=consul -p 8500:8500 consul
-docker network connect mysqlnetwork consul
+docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
