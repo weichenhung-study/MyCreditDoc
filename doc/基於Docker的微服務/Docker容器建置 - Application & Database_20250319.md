@@ -253,7 +253,7 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 	docker volume prune
 	
 #### 🔸 刪除「未使用」的建構快取
-	docker builder prune -
+	docker builder prune
 	
 #### 🔸 清理停止的 Container
 	docker container prune
