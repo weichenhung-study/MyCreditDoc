@@ -101,24 +101,35 @@
 
 
 
+#### 😅 如果不小心把db的container刪掉了我們把測試資料加回去
+(1) monolith-db <br>
+爭議款項申請:上註記(billrecord)7e9d6fac-2af7-4f4a-b2de-d825121b0680
+	INSERT INTO billrecord (uuid,buyChannel,buyDate,reqPaymentDate,cardType,shopId,cid,buyCurrency,buyAmount,disputedFlag,status,actuallyDate,remark ,issuingBank,cardNum,securityCode)VALUES('7e9d6fac-2af7-4f4a-b2de-d825121b0680','','','','','','','','','','','','','','','');
+
+客戶使用信用卡購物(cuscredit)F221613206、卡號：0401784090376694、安全碼：087
+	INSERT INTO cuscredit (chName, enName, cid, cidReissueDate, cidReissueLocation, cidReissueStatus, birthDate, maritalStatus, education, currentResidentialAdd, residentialAdd, cellphone, email, companyName, companyIndustry, occupation, department, jobTitle, dateOfEmployment, companyAddress, companyPhoneNum, annualIncome, cardApprovalStatus, ApplyRemark, activationRecord, eventCode, regidate, issuing_bank, cardNum, securityCode, status, cardType, remark)VALUES('test-j','test-j','F221613206','','','','','','','','','','tuluber@gmail.com','','','','','','','','','','','','00','','00','00','0401784090376694','087','','2','');
+
+客戶繳交信用卡費feepatment(billofmonth)F221613206
+	INSERT INTO billofmonth(uuid,cid,cardType,writeDate,billData,billMonth,amt,paidAmount,notPaidAmount,cycleRate,cycleAmt,spaceCycleRate,spaceAmt,payDate)VALUES('','F221613206','2','','','2025/02','1','1','1','','','','','');
+
+(2) billofmonth-db / cuscredit-db / billrecord-db <br>
+同上
+
+
+
 ## ⭐ 3. jersey-monolith:8071
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
-#### 🔸 (2) 創建映像檔
-    docker build -t jersey-monolith-img .
-#### 🔸 (3) 啟動容器
-    docker run -d -p 8071:8080 --name jersey-monolith --net monolithnetwork jersey-monolith-img
+#### 🔸 (2)  啟動容器
+    docker-compose up --build -d
 
 
 
 ## ⭐ 4. jersey-modular-monolith:8072
 #### 🔸 (1) cd到專案dockerfile目錄
 	mvn clean package
-#### 🔸 (2) 創建映像檔
-    docker build -t jersey-modular-monolith-img .
-#### 🔸 (3) 啟動容器
-    docker run -d -p 8072:8080 --name jersey-modular-monolith --net monolithnetwork jersey-modular-monolith-img
-
+#### 🔸 (2)  啟動容器
+    docker-compose up --build -d
 
 
 
@@ -185,6 +196,8 @@
 	(3) 重新啟動專案	
 		docker-compose up -d --no-deps --build springboot-microservice-jpa-cuscredit
 
+
+
 ## ⭐ 10.設定「springboot-microservice-loadbalancer」專用的分流設定：
 拉取分流server
 docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
@@ -223,8 +236,10 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
     docker-compose up --build -d
 
 
+
 ## ⭐ 14.設定「jersey-microservice-aamode」專用的分流設定：
 	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14.0
+
 
 
 ## ⭐ 15. jersey-microservice-loadbalancer
@@ -242,9 +257,6 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 ## ⭐ 17. 釋放 Docker 不必要資源
-
-#### 🔸 清理所有暫存資源
-	docker system prune -a
 	
 #### 🔸 清理未使用的映像 (image)
 	docker image prune -a
@@ -255,9 +267,6 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 #### 🔸 刪除「未使用」的建構快取
 	docker builder prune
 	
-#### 🔸 清理停止的 Container
-	docker container prune
-	
 #### 🔸 清理未使用的網路 (network)
 	docker network prune
 	
@@ -267,3 +276,9 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 	
 #### 🔸 檢查空間使用情況
 	docker system df
+	
+#### 🔸 (危險不可使用）清理所有暫存資源
+	docker system prune -a
+	
+#### 🔸 （危險不可使用）清理停止的 Container
+docker container prune
