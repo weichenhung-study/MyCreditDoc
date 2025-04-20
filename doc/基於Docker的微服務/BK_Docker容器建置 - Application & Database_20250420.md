@@ -216,14 +216,56 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
-## ⭐ 13. springboot-microservice-aamode
-#### 🔸 (1) cd到專案docker-compose.yml目錄
-	mvn clean package
-#### 🔸 (2)  啟動容器
-    docker-compose up --build -d
+## ⭐ 13. springboot-microservice-loadbalancer
+#### 🔸 (1) 初始化 Swarm（只做一次）
+    docker swarm init
+
+#### 🔸 (2) 建立鏡像
+	docker build -t billing-service ./springboot-microservice-loadbalancer-billing
+	docker build -t transactions-service ./springboot-microservice-loadbalancer-transactions
+	docker build -t management-service ./springboot-microservice-loadbalancer-management
+	docker build -t dispute-service ./springboot-microservice-loadbalancer-dispute
+
+#### 🔸 (3) 創建 Swarm 外部網路
+
+備註: docker network ls
+NETWORK ID     NAME              DRIVER    SCOPE
+304275df9156   bridge            bridge    local
+a7172c512c71   consul-net        bridge    local
+4caf257c4eb3   docker_gwbridge   bridge    local
+81e222139aaa   host              host      local
+i4jhf4cudp33   ingress           overlay   swarm
+9ef344830410   monolithnetwork   bridge    local
+5159edc24d4b   mysqlnetwork      bridge    local
+b44bb2556bde   none              null      local
+
+其中mysqlnetwork不是 Swarm 模式需要的 overlay + swarm 組合，因此不能被 docker stack deploy 使用
+先 刪掉舊的 mysqlnetwork，再建立正確的 overlay network：
+	```
+	docker network rm mysqlnetwork
+	docker network create --driver overlay mysqlnetwork
+	```
+可以看到結果
+docker network ls                                                             
+NETWORK ID     NAME              DRIVER    SCOPE
+304275df9156   bridge            bridge    local
+a7172c512c71   consul-net        bridge    local
+4caf257c4eb3   docker_gwbridge   bridge    local
+81e222139aaa   host              host      local
+i4jhf4cudp33   ingress           overlay   swarm
+9ef344830410   monolithnetwork   bridge    local
+votyughfjrb5   mysqlnetwork      overlay   swarm
+b44bb2556bde   none              null      local
+
+#### 🔸 (4) 用 Swarm deploy 這份 stack
+    docker stack deploy -c docker-stack.yml loadbalancer
+
+#### 🔸 (5) 查看服務狀態
+	docker service ls
 
 
-## ⭐ 14.設定「jersey-microservice-aamode」專用的分流設定：
+
+## ⭐ 14.設定「jersey-microservice-loadbalancer」專用的分流設定：
 	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14.0
 
 
