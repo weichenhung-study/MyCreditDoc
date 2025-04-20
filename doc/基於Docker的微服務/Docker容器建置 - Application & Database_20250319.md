@@ -242,14 +242,28 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 ## ⭐ 17. 釋放 Docker 不必要資源
-#### 🔸 清理停止的 Container
-	docker container prune
-
-#### 🔸 清理未使用的映像 (image)
-	docker image prune -a
-
-#### 🔸 清理未使用的網路 (network)
-	docker network prune
 
 #### 🔸 清理所有暫存資源
 	docker system prune -a
+	
+#### 🔸 清理未使用的映像 (image)
+	docker image prune -a
+	
+#### 🔸 清除沒用的 volumes
+	docker volume prune
+	
+#### 🔸 刪除「未使用」的建構快取
+	docker builder prune -
+	
+#### 🔸 清理停止的 Container
+	docker container prune
+	
+#### 🔸 清理未使用的網路 (network)
+	docker network prune
+	
+#### 🔸 刪除該container下的資料夾
+	進到該container內，到Terminal下指令
+	rm -rf /test-result
+	
+#### 🔸 檢查空間使用情況
+	docker system df
