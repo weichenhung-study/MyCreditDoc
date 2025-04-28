@@ -309,3 +309,69 @@ b44bb2556bde   none              null      local
 	
 #### 🔸 檢查空間使用情況
 	docker system df
+	
+	
+	
+	
+docker swarm init
+-- 創建Docker Swarm的network
+-- docker network create --driver overlay docker_swarm_network
+-- docker network create --driver overlay --attachable docker_swarm_network --獨立容器（非 Swarm service）也可以加入這個 overlay network。
+docker network create --driver=overlay --attachable docker_swarm_network
+  
+-- 將microservice-aamode、jdbc/jpa、cuscredit-db、billofmonth-db、billrecord-db都加入
+
+-- 將consul加入swarm的network
+docker network connect docker_swarm_network consul
+
+--加裝curl(已寫在dockerfile)
+--apt update && apt install curl -y
+
+--測試health
+docker exec -it 6a73ea67b2461a8ace5f0e028690a3a3b75296c494b33dffd46158e0fcbc2d90 bash
+curl http://localhost:8080/actuator/health
+curl http://billing-service:8080/actuator/health
+
+-- 清除快取
+到該dockerfile位置下指令
+docker build --no-cache -t billing-service .
+
+--build image映像檔
+docker build -t billing-service ./springboot-microservice-loadbalancer-billing
+-- 將專案放置docker並啟動
+--docker stack deploy -c docker-stack.yml stackloadbalancer
+docker stack deploy -c docker-stack.yml springboot-microservice-loadbalancer
+
+-- 停用所有 Swarm Mode
+--docker swarm leave --force
+-- 清除目前正在運行的 Swarm
+docker stack rm springboot-microservice-loadbalancer
+
+### 啟用 Grafana 服務
+docker run -d --name grafana --network docker_swarm_network -p 3000:3000 -e GF_SECURITY_ADMIN_PASSWORD=admin grafana/grafana:10.3.3
+
+
+### prometheus 資料蒐集
+可以看到服務啟著並且有tag
+http://localhost:9090/targets?search=
+
+可以在以下連結看到發的每分鐘的請求數變化、每天的總和、流量圖線趨勢
+http://localhost:9090/graph
+
+
+### Grafana 數據顯示
+至http://localhost:9090/api/v1/query
+Home - Connections - Data sources - springboot-microservice-loadbalancer
+Connection Prometheus server URL 輸入：http://prometheus:9090
+save & test OK!
+再到dash board - add a panel
+
+Home
+Dashboards
+New dashboard
+Home>Dashboards>add visualization
+選剛剛設定的springboot-microservice-loadbalancer
+拉到最底下Data source：springboot-microservice-loadbalancer
+右上角apply
+add panel button
+time series - Gauge

@@ -110,7 +110,11 @@
 	INSERT INTO cuscredit (chName, enName, cid, cidReissueDate, cidReissueLocation, cidReissueStatus, birthDate, maritalStatus, education, currentResidentialAdd, residentialAdd, cellphone, email, companyName, companyIndustry, occupation, department, jobTitle, dateOfEmployment, companyAddress, companyPhoneNum, annualIncome, cardApprovalStatus, ApplyRemark, activationRecord, eventCode, regidate, issuing_bank, cardNum, securityCode, status, cardType, remark)VALUES('test-j','test-j','F221613206','','','','','','','','','','tuluber@gmail.com','','','','','','','','','','','','00','','00','00','0401784090376694','087','','2','');
 
 客戶繳交信用卡費feepatment(billofmonth)F221613206
-	INSERT INTO billofmonth(uuid,cid,cardType,writeDate,billData,billMonth,amt,paidAmount,notPaidAmount,cycleRate,cycleAmt,spaceCycleRate,spaceAmt,payDate)VALUES('','F221613206','2','','','2025/02','1','1','1','','','','','');
+	INSERT INTO billofmonth(uuid,cid,cardType,writeDate,billData,billMonth,amt,paidAmount,notPaidAmount,cycleRate,cycleAmt,spaceCycleRate,spaceAmt,payDate)VALUES('7e9d6fac-2af7-4f4a-b2de-d825121b0680','F221613206','2','','','2025/02','1','1','1','','','','','');
+
+客戶交易紀錄(billrecord)
+	INSERT INTO billrecord (uuid,buyChannel,buyDate,reqPaymentDate,cardType,shopId,cid,buyCurrency,buyAmount,disputedFlag,status,actuallyDate,remark,issuingBank,cardNum,securityCode)VALUES('','','2025/04/26','','2','','J123456789','','','','','','','','','');
+
 
 (2) billofmonth-db / cuscredit-db / billrecord-db <br>
 同上
@@ -200,7 +204,7 @@
 
 ## ⭐ 10.設定「springboot-microservice-loadbalancer」專用的分流設定：
 拉取分流server
-docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
+	docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
@@ -229,7 +233,7 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
-## ⭐ 13. springboot-microservice-aamode
+## ⭐ 13. springboot-microservice-loadbalancer
 #### 🔸 (1) cd到專案docker-compose.yml目錄
 	mvn clean package
 #### 🔸 (2)  啟動容器
@@ -237,7 +241,7 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
-## ⭐ 14.設定「jersey-microservice-aamode」專用的分流設定：
+## ⭐ 14.設定「jersey-microservice-loadbalancer」專用的分流設定：
 	docker run -d --name=jersey-consul --network=mysqlnetwork -p 8501:8500 consul:1.14.0
 
 
@@ -250,13 +254,29 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 
 
 
-## ⭐ 16. 移除多餘的 Consul 實例
+## ⭐ 16. jersey-microservice-loadbalancer
+速度最慢的服務多增加一個instance
+進到docker-compose.yml的那層D:\Project\jersey-microservice-loadbalancer下指令
+	docker build --no-cache -t jersey-microservice-loadbalancer-transactions-instance2-img ./jersey-microservice-loadbalancer-transactions
+	docker run -d --name jersey-microservice-loadbalancer-transactions-instance2-api --hostname jersey-microservice-loadbalancer-transactions-instance2-api -p 8035:8080 --network mysqlnetwork -e "SPRING_CLOUD_CONSUL_HOST=consul" -e "SPRING_CLOUD_CONSUL_PORT=8500" jersey-microservice-loadbalancer-transactions-instance2-img
+
+
+
+## ⭐ 17. springboot-microservice-loadbalancer
+速度最慢的服務多增加一個instance
+進到docker-compose.yml的那層D:\Project\springboot-microservice-loadbalancer下指令
+	docker build --no-cache -t springboot-microservice-loadbalancer-transactions-instance2-img ./springboot-microservice-loadbalancer-transactions
+	docker run -d --name springboot-microservice-loadbalancer-transactions-instance2-api --hostname springboot-microservice-loadbalancer-transactions-instance2-api -p 8023:8080 --network mysqlnetwork -e "SPRING_CLOUD_CONSUL_HOST=consul" -e "SPRING_CLOUD_CONSUL_PORT=8500" springboot-microservice-loadbalancer-transactions-instance2-img
+
+
+
+## ⭐ 18. 移除多餘的 Consul 實例
 #### 🔸 針對特定的刪除
 	curl --request PUT http://localhost:8500/v1/agent/service/deregister/gateway-service-04ac3bb9aa27d96503c2768ea2c5174b
 
 
 
-## ⭐ 17. 釋放 Docker 不必要資源
+## ⭐ 19. 釋放 Docker 不必要資源
 	
 #### 🔸 清理未使用的映像 (image)
 	docker image prune -a
@@ -282,3 +302,9 @@ docker run -d --name=consul --network=mysqlnetwork -p 8500:8500 consul:1.14.0
 	
 #### 🔸 （危險不可使用）清理停止的 Container
 docker container prune
+
+
+## ⭐ GIT版本退回
+#### 🔸 (1) git checkout aca1e2ff2182053aeb693dd33b3bdd9611f32887
+#### 🔸 (2) git checkout main
+#### 🔸 (3) git reset --hard aca1e2ff2182053aeb693dd33b3bdd9611f32887
