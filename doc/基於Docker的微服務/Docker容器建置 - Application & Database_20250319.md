@@ -257,17 +257,19 @@
 ## ⭐ 16. jersey-microservice-loadbalancer
 速度最慢的服務多增加一個instance
 進到docker-compose.yml的那層D:\Project\jersey-microservice-loadbalancer下指令
+```
 	docker build --no-cache -t jersey-microservice-loadbalancer-transactions-instance2-img ./jersey-microservice-loadbalancer-transactions
 	docker run -d --name jersey-microservice-loadbalancer-transactions-instance2-api --hostname jersey-microservice-loadbalancer-transactions-instance2-api -p 8035:8080 --network mysqlnetwork -e "SPRING_CLOUD_CONSUL_HOST=consul" -e "SPRING_CLOUD_CONSUL_PORT=8500" jersey-microservice-loadbalancer-transactions-instance2-img
-
+```
 
 
 ## ⭐ 17. springboot-microservice-loadbalancer
 速度最慢的服務多增加一個instance
 進到docker-compose.yml的那層D:\Project\springboot-microservice-loadbalancer下指令
+```
 	docker build --no-cache -t springboot-microservice-loadbalancer-transactions-instance2-img ./springboot-microservice-loadbalancer-transactions
 	docker run -d --name springboot-microservice-loadbalancer-transactions-instance2-api --hostname springboot-microservice-loadbalancer-transactions-instance2-api -p 8023:8080 --network mysqlnetwork -e "SPRING_CLOUD_CONSUL_HOST=consul" -e "SPRING_CLOUD_CONSUL_PORT=8500" springboot-microservice-loadbalancer-transactions-instance2-img
-
+```
 
 
 ## ⭐ 18. 移除多餘的 Consul 實例
